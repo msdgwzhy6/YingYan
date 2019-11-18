@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">YingYan</string>
+    <!-- 报警通知标题 -->
+    <string name="alarm_push_title">百度鹰眼报警推送</string>
+</resources>
