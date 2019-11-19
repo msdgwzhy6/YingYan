@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.baidu.trace.LBSTraceClient;
@@ -20,8 +22,9 @@ import com.baidu.trace.model.PushMessage;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static String TAG = "MainActivity";
+    private Button btn_start, btn_stop;
     private Context mContext;
 
     // 轨迹服务ID
@@ -45,21 +48,37 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        btn_start = findViewById(R.id.btn_start);
+        btn_stop = findViewById(R.id.btn_stop);
+        btn_start.setOnClickListener(this);
+        btn_stop.setOnClickListener(this);
         mContext = MainActivity.this;
+
         // 初始化轨迹服务
         mTrace = new Trace(serviceId, entityName, isNeedObjectStorage);
         // 初始化轨迹服务客户端,（Context参数请务必传入getApplicationContext()）
         mTraceClient = new LBSTraceClient(getApplicationContext());
         // 设置定位和打包周期
         mTraceClient.setInterval(gatherInterval, packInterval);
-
+        //上传轨迹点自定义属性
+        addTrackAttributeUpload();
         //上传entity自定义属性
         updateEntityAttr();
+    }
 
+    private void start(){
         // 开启服务
         mTraceClient.startTrace(mTrace, mTraceListener);
         // 开启采集
         mTraceClient.startGather(mTraceListener);
+    }
+
+    private void stop(){
+        // 停止服务（此方法将同时停止轨迹服务和轨迹采集，完全结束鹰眼轨迹服务）
+        mTraceClient.stopTrace(mTrace, mTraceListener);
+
+        // 停止采集（此方法将停止轨迹采集，但不停止轨迹服务）
+//        mTraceClient.stopGather(mTraceListener);
     }
 
     // 初始化轨迹服务监听器
@@ -180,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 为轨迹点增加自定义属性数据上传
      */
-    private void addTrackAttributeUpload(){
+    private void addTrackAttributeUpload() {
         // 为实现自定义属性数据上传，须重写OnCustomAttributeListener监听器中的onTrackAttributeCallback()接口
         mTraceClient.setOnCustomAttributeListener(new OnCustomAttributeListener() {
             @Override
@@ -198,7 +217,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
 
 
     /**
@@ -241,5 +259,19 @@ public class MainActivity extends AppCompatActivity {
                 super.onAddEntityCallback(addEntityResponse);
             }
         });
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_start:
+                start();
+                break;
+            case R.id.btn_stop:
+                stop();
+                break;
+            default:
+                break;
+        }
     }
 }
