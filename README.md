@@ -5,9 +5,9 @@ Android端百度鹰眼轨迹追踪Demo，增加轨迹点自定义属性上传，
 <div>
 <img src="https://github.com/yangxch/YingYan/raw/master/screenshot/startServer.jpg" width="35%" height="35%">
 <br>
-<img src="https://github.com/yangxch/YingYan/raw/master/screenshot/trace.png" width="35%" height="35%">
+<img src="https://github.com/yangxch/YingYan/raw/master/screenshot/trace.png" width="80%" height="35%">
 <br>
-<img src="https://github.com/yangxch/YingYan/raw/master/screenshot/monitor.png" width="35%" height="35%">
+<img src="https://github.com/yangxch/YingYan/raw/master/screenshot/monitor.png" width="80%" height="35%">
   <br><br>
 </div>
 
