@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Context mContext;
 
     // 轨迹服务ID
-    long serviceId = 217548;
+    long serviceId = 0;
     // 设备标识
     String entityName = "张三";
     // 是否需要对象存储服务，默认为：false，关闭对象存储服务。
